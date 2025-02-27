@@ -1,0 +1,145 @@
+Merge Sorted Array
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int i = m - 1; 
+        int j = n - 1; 
+        int k = m + n - 1; 
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[k] = nums1[i];
+                i--;
+            } else {
+                nums1[k] = nums2[j];
+                j--;
+            }
+            k--;
+        }
+        while (j >= 0) {
+            nums1[k] = nums2[j];
+            j--;
+            k--;
+        }
+    }
+}
+Input
+nums1 =
+[1,2,3,0,0,0]
+m =
+3
+nums2 =
+[2,5,6]
+n =
+3
+Output
+[1,2,2,3,5,6]
+
+First Bad Version
+public class Solution extends VersionControl {
+    public int firstBadVersion(int n) {
+        int first = 1;
+        int last = n;
+
+        while (first < last) {
+            int mid = first + (last - first) / 2;
+
+            if (isBadVersion(mid)) {
+                last = mid; 
+            } else {
+                first = mid + 1; 
+            }
+        }
+
+        return first; 
+    }
+}
+Input
+n =
+5
+bad =
+4
+Output
+4
+
+Sort Colors
+class Solution {
+    public void sortColors(int[] nums) {
+        HashMap<Integer, Integer> count = new HashMap<>();
+        count.put(0, 0);
+        count.put(1, 0);
+        count.put(2, 0);
+
+        for (int num : nums) {
+            count.put(num, count.get(num) + 1);
+        }
+
+        int idx = 0;
+        for (int color = 0; color < 3; color++) {
+            int freq = count.get(color);
+            for (int j = 0; j < freq; j++) {
+                nums[idx] = color;
+                idx++;
+            }
+        }        
+    }
+}
+Input
+nums =
+[2,0,2,1,1,0]
+Output
+[0,0,1,1,2,2]
+
+Medium	Top K frequent elements
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> counter = new HashMap<>();
+        for (int n : nums) {
+            counter.put(n, counter.getOrDefault(n, 0) + 1);
+        }
+        
+        PriorityQueue<Map.Entry<Integer, Integer>> heap = new PriorityQueue<>(
+            (a, b) -> Integer.compare(b.getValue(), a.getValue())
+        );
+        
+        for (Map.Entry<Integer, Integer> entry : counter.entrySet()) {
+            heap.offer(entry);
+        }
+        
+        int[] res = new int[k];
+        for (int i = 0; i < k; i++) {
+            res[i] = Objects.requireNonNull(heap.poll()).getKey();
+        }
+        
+        return res;        
+    }
+}
+Input
+nums =
+[1,1,1,2,2,3]
+k =
+2
+Output
+[1,2]
+
+
+Kth Largest element in an array
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+        for (int num : nums) {
+            minHeap.add(num);
+            if (minHeap.size() > k) {
+                minHeap.poll();
+            }
+        }
+
+        return minHeap.peek();        
+    }
+}
+Input
+nums =
+[3,2,1,5,6,4]
+k =
+2
+Output
+5
